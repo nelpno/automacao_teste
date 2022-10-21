@@ -3,9 +3,9 @@ from datetime import datetime
 
 import pyautogui
 import pyautogui as pa
-import pytesseract
 
-pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
+def pressionar_junto(letras):
+
 
 data_atual = datetime.today()
 data_em_texto = data_atual.strftime('%d-%m-%Y')

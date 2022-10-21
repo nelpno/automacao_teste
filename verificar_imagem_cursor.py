@@ -10,15 +10,17 @@ import pytesseract
 pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
 
 
+def verificar_cor_eixo():
+    cor_branca = False
 
-cor_branca = False
+    while cor_branca == False:
+        x, y = pyautogui.position()
+        print(x, y)
+        cor = pyautogui.pixel(x, y)
+        print(cor)
+        time.sleep(2)
+        if pa.pixelMatchesColor(x, y, (231,243,255)):
+            cor_branca = True
 
-while cor_branca == False:
-    x, y = pyautogui.position()
-    print(x, y)
-    cor = pyautogui.pixel(x, y)
-    print(cor)
-    time.sleep(2)
-    if pa.pixelMatchesColor(x, y, (231,243,255)):
-        cor_branca = True
 
+verificar_cor_eixo()
