@@ -1,19 +1,17 @@
-import time
-import PIL.ImageShow
-import pyautogui as pa
-import pytesseract.pytesseract
-from PIL import ImageGrab, ImageEnhance, ImageOps
-import pytesseract
+import csv
+import pandas as pd
 
-pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
+df = pd.read_excel('teste.xlsx') # can also index sheet by name or fetch all sheets
+cliente_lista = df['Cliente'].tolist()
+id = df['ID'].tolist()
+valor = df['Valor'].tolist()
+i = 0
 
-#Pegar screenshot completo
-img = ImageGrab.grab()
+print(type(valor))
+def qual_cliente(i):
+    cliente = cliente_lista[i]
+    valor_investido = valor_lista[i]
+    escrita_boleto = ("{}-{}".format(cliente, data_hoje()))
+    return cliente, valor_investido
 
-#Recortar o screenshoot nas coordenadas
-img = img.crop((1803, 906, 2420, 1024))
-PIL.ImageShow.show(img)
-
-width, height = img.size
-print(width, height)
-imgdata = pytesseract.image_to_data(img, lang="pt-br")
+print(qual_cliente(0))

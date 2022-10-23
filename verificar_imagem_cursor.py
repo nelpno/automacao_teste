@@ -22,6 +22,7 @@ def verificar_cor_eixo(r, g, b):
         if pa.pixelMatchesColor(x, y, (r, g, b)):
             achou_cor = True
 
+
 def verificar_cor_pixel(x, y, r, g, b):
     achou_cor = False
 
@@ -30,10 +31,6 @@ def verificar_cor_pixel(x, y, r, g, b):
             achou_cor = True
 
     return True
-
-# while not verificar_cor_eixo(255, 255, 255):
-verificar_cor_eixo(255, 255, 255)
-
 
 def tempo(segundos):
     pyautogui.countdown(segundos)
@@ -50,7 +47,9 @@ def apertar(letra):
 def escreve(texto):
     pyautogui.write(texto)
 
-
+def verificar_imagem(arquivo):
+    achei = pyautogui.locateOnScreen(arquivo)
+    return achei
 def imagem_clicar(arquivo):
     achar_arquivo = pyautogui.locateOnScreen(arquivo)
     pyautogui.click(achar_arquivo)
@@ -60,3 +59,16 @@ def data_hoje():
     data_atual = datetime.today()
     data_em_texto = data_atual.strftime('%d-%m-%Y')
     return data_em_texto
+
+# while not verificar_cor_eixo(255, 255, 255):
+verificar_cor_eixo(255, 255, 255)
+
+# while verificar_imagem("adicionar_fundos.png") is None:
+#     print("Não achei")
+
+# achei = verificar_imagem("adicionar_fundos.png")
+# print(achei)
+
+
+# while verificar_imagem('adicionar_fundos.png') is None:
+#     print("Não achei!")

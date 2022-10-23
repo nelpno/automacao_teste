@@ -3,6 +3,7 @@ from datetime import datetime
 
 import pyautogui
 import pyautogui as pa
+import pandas as pd
 
 
 def tempo(segundos):
@@ -22,7 +23,7 @@ def escreve(texto):
 
 
 def imagem_clicar(arquivo):
-    achar_arquivo = pyautogui.locateOnScreen(arquivo)
+    achar_arquivo = pyautogui.locateOnScreen(arquivo, confidence=.99, grayscale=True)
     pyautogui.click(achar_arquivo)
 
 
@@ -42,37 +43,71 @@ def verificar_cor_pixel(x, y, r, g, b):
     return True
 
 
-cliente = "Maxi Massas"
-valor_investido = "400,00"
+def verificar_imagem(arquivo):
+    achei = pyautogui.locateOnScreen(arquivo, confidence=.99, grayscale=True)
+    return achei
 
-escrita_boleto = ("{}-{}".format(cliente, data_hoje()))
 
+def criar_boletos(i):
+    escreve("https://business.facebook.com/ads/manager/billing_history/summary/?act={}".format(id_lista[i]))
+    apertar("enter")
+    tempo(2)
+    while verificar_imagem('adicionar_fundos.png') is None:
+        print('Não achei. 1')
+        time.sleep(0.1)
+    imagem_clicar('adicionar_fundos.png')
+    while verificar_imagem('espera_adicionar_fundos.png') is None:
+        print('Não achei. 2')
+        time.sleep(0.1)
+    apertar('tab')
+    press_2_teclas('ctrl', 'a')
+    apertar('backspace')
+    escreve("{}".format(valor_lista[i]))
+    imagem_clicar('boleto_bancario.png')
+    imagem_clicar('adicionar_fundos_2.png')
+
+    while verificar_imagem('baixar.png') is None:
+        print('Não achei. 4')
+        time.sleep(0.2)
+
+    imagem_clicar('baixar.png')
+
+    while verificar_imagem('abriu_boleto.png') is None:
+        print('Não achei. 5')
+        time.sleep(0.2)
+
+    escreve("{}".format("{}-{}".format(cliente_lista[i], data_hoje())))
+    imagem_clicar('downloads.png')
+    time.sleep(.25)
+    press_2_teclas('alt', 'l')
+    time.sleep(.25)
+    imagem_clicar('x_boleto_feito.png')
+    pyautogui.click(3417, 1369)
+    imagem_clicar('navegador.png')
+
+
+i = 0
+
+# lista de clientes puxada pelo Excel
+df = pd.read_excel('teste.xlsx')  # can also index sheet by name or fetch all sheets
+cliente_lista = df['Cliente'].tolist()
+id_lista = df['ID'].tolist()
+valor_lista = df['Valor'].tolist()
+
+# inicio abrindo navegador
 imagem_clicar('chrome_nelson.png')
-tempo(2)
+
+while verificar_imagem('chrome_abriu.png') is None:
+    time.sleep(0.1)
+
 press_2_teclas('ctrl', 'f4')
-tempo(1)
-escreve("https://business.facebook.com/ads/manager/billing_history/summary/?act=704083103754311")
-apertar("enter")
-tempo(5)
-imagem_clicar('adicionar_fundos.png')
-tempo(5)
-apertar('tab')
-press_2_teclas('ctrl', 'a')
-apertar('backspace')
-escreve(valor_investido)
-imagem_clicar('boleto_bancario.png')
-imagem_clicar('adicionar_fundos_2.png')
+time.sleep(0.1)
 
-while not verificar_cor_pixel(2515, 771, 231, 243, 255):
-    verificar_cor_pixel(2515, 771, 231, 243, 255)
+while i < len(cliente_lista):
+    criar_boletos(i)
+    i += 1
 
-imagem_clicar('baixar.png')
-tempo(2)
-escreve(escrita_boleto)
-imagem_clicar('downloads.png')
-tempo(2)
-press_2_teclas('alt', 'l')
-tempo(1)
-imagem_clicar('x_boleto_feito.png')
-
-# https://business.facebook.com/ads/manager/billing_history/summary/?act=704083103754311 LINK RESUMIDO ID DO CLIENTE
+imagem_clicar("documentos.png")
+while verificar_imagem("downloads.png") is None:
+    time.sleep(0.25)
+imagem_clicar("downloads.png")
