@@ -1,10 +1,8 @@
-from datetime import datetime
 import time
-import PIL.ImageShow
+from datetime import datetime
+
 import pyautogui
 import pyautogui as pa
-import pytesseract.pytesseract
-from PIL import ImageGrab, ImageEnhance, ImageOps
 import pytesseract
 
 pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'
@@ -32,6 +30,7 @@ def verificar_cor_pixel(x, y, r, g, b):
 
     return True
 
+
 def tempo(segundos):
     pyautogui.countdown(segundos)
 
@@ -47,9 +46,12 @@ def apertar(letra):
 def escreve(texto):
     pyautogui.write(texto)
 
+
 def verificar_imagem(arquivo):
     achei = pyautogui.locateOnScreen(arquivo)
     return achei
+
+
 def imagem_clicar(arquivo):
     achar_arquivo = pyautogui.locateOnScreen(arquivo)
     pyautogui.click(achar_arquivo)
@@ -59,6 +61,7 @@ def data_hoje():
     data_atual = datetime.today()
     data_em_texto = data_atual.strftime('%d-%m-%Y')
     return data_em_texto
+
 
 # while not verificar_cor_eixo(255, 255, 255):
 verificar_cor_eixo(255, 255, 255)
